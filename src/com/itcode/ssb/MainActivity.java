@@ -3,22 +3,29 @@ package com.itcode.ssb;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.itcode.ssb.adapter.ListViewAdapter;
-
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.method.LinkMovementMethod;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.BulletSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StrikethroughSpan;
+import android.text.style.StyleSpan;
+import android.text.style.SubscriptSpan;
+import android.text.style.SuperscriptSpan;
+import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
+import android.text.style.UnderlineSpan;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.itcode.ssb.adapter.ListViewAdapter;
 
 public class MainActivity extends Activity {
 
@@ -54,16 +61,96 @@ public class MainActivity extends Activity {
 		ssb.setSpan(new ForegroundColorSpan(Color.RED), 4, 8, Spannable.SPAN_MARK_POINT);
 		spannablesbList.add(ssb);
 
-		// 基本使用_3:设置链接
+		ssb = new SpannableStringBuilder("设置字体背景色 ");
+		ssb.setSpan(new BackgroundColorSpan(Color.GRAY), new String("设置字体").length(), new String("设置字体背景色 ").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 设置背景色为青色
+		spannablesbList.add(ssb);
+
+		ssb = new SpannableStringBuilder("设置下划线");
+		// 设置下划线
+		ssb.setSpan(new UnderlineSpan(), 0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannablesbList.add(ssb);
+
+		ssb = new SpannableStringBuilder("设置删除线");
+		ssb.setSpan(new StrikethroughSpan(),  0, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannablesbList.add(ssb);
+
+		ssb = new SpannableStringBuilder("设置上下标:y=x3+An");
+		//
+		ssb.setSpan(new SuperscriptSpan(), new String("设置上下标:y=x").length(), new String("设置上下标:y=x2").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 下标
+		ssb.setSpan(new SubscriptSpan(),  new String("设置上下标:y=x3+a").length(), new String("设置上下标:y=x3+an").length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 上标
+		spannablesbList.add(ssb);
+		
+		ssb = new SpannableStringBuilder("超级链接:电话 ");
+		ssb.setSpan(new URLSpan("tel:13912345678"), 5, 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 电话
+		spannablesbList.add(ssb);
+
+		ssb = new SpannableStringBuilder("超级链接:邮件 ");
+		ssb.setSpan(new URLSpan("mailto:webmaster@google.com"),5, 7,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 邮件
+		ssb.setSpan(new ForegroundColorSpan(Color.YELLOW),5, 7,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannablesbList.add(ssb);
+
+		ssb = new SpannableStringBuilder("超级链接:网络 ");
+		ssb.setSpan(new URLSpan("http://www.baidu.com"), 5, 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 网络
+		ssb.setSpan(new ForegroundColorSpan(Color.LTGRAY),5, 7,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannablesbList.add(ssb);
+
+		ssb = new SpannableStringBuilder("超级链接:短信 ");
+		ssb.setSpan(new URLSpan("sms:13912345678"), 5, 7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 短信
+		ssb.setSpan(new ForegroundColorSpan(Color.BLUE),5, 7,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannablesbList.add(ssb);
+
+		ssb = new SpannableStringBuilder("超级链接:地图 ");
+		ssb.setSpan(new URLSpan("geo:38.899533,-77.036476"), 5, 7,Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 
+		ssb.setSpan(new ForegroundColorSpan(Color.GREEN),5, 7,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannablesbList.add(ssb);
+
 		// 注意：设置链接后，指定区间的文本会变成蓝色，会遮住以前设置的颜色，所以应在设置链接后再为指定区间的文字设置颜色
-		ssb = new SpannableStringBuilder("设置链接");
+		ssb = new SpannableStringBuilder("设置链接:文本 ");
 		ssb.setSpan(new URLSpan("cacaca") {
 			@Override
 			public void onClick(View widget) {
 				Toast.makeText(MainActivity.this, "点击了设置的链接", 0).show();
 			}
-		}, 2, 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		ssb.setSpan(new ForegroundColorSpan(Color.RED), 2,4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}, 5, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		ssb.setSpan(new ForegroundColorSpan(Color.RED),5, 7,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannablesbList.add(ssb);
+		
+
+		
+		ssb = new SpannableStringBuilder("设置项目符号");
+		ssb.setSpan(new BulletSpan(android.text.style.BulletSpan.STANDARD_GAP_WIDTH, Color.GREEN),  0, new String("设置项目符号").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 第一个参数表示项目符号占用的宽度，第二个参数为项目符号的颜色
+		spannablesbList.add(ssb);
+		
+		ssb = new SpannableStringBuilder("设置字体样式正常，粗体，斜体，粗斜体 ");
+		// 设置字体样式正常，粗体，斜体，粗斜体
+		ssb.setSpan(new StyleSpan(android.graphics.Typeface.NORMAL), 6, 9, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 正常
+		ssb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), 9, 12, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 粗体
+		ssb.setSpan(new StyleSpan(android.graphics.Typeface.ITALIC), 12, 15, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 斜体
+		ssb.setSpan(new StyleSpan(android.graphics.Typeface.BOLD_ITALIC), 15, 18, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 粗斜体
+		spannablesbList.add(ssb);
+
+
+		// 设置字体(default,default-bold,monospace,serif,sans-serif)
+		String str = "设置字体(default,default-bold,monospace,serif,sans-serif)";
+		ssb = new SpannableStringBuilder(str);
+		ssb.setSpan(new TypefaceSpan("default"), 0, new String("设置字体(default,").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		ssb.setSpan(new TypefaceSpan("default-bold"), new String("设置字体(default,").length(), new String("设置字体(default,default-bold,").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		ssb.setSpan(new TypefaceSpan("monospace"), new String("设置字体(default,default-bold,").length(), new String("设置字体(default,default-bold,monospace,").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		ssb.setSpan(new TypefaceSpan("serif"), new String("设置字体(default,default-bold,monospace,").length(), new String("设置字体(default,default-bold,monospace,serif,").length(),
+		Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		ssb.setSpan(new TypefaceSpan("sans-serif"), new String("设置字体(default,default-bold,monospace,serif,").length(), new String("设置字体(default,default-bold,monospace,serif,sans-serif)").length(),
+		Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spannablesbList.add(ssb);
+
+		ssb = new SpannableStringBuilder("设置字体大小(绝对值：单位:像素/单位:像素)");
+		ssb.setSpan(new AbsoluteSizeSpan(20),new String("设置字体大小(绝对值,").length(), new String("设置字体大小(绝对值,单位:像素,").length(),  Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		ssb.setSpan(new AbsoluteSizeSpan(20, true),new String("设置字体大小(绝对值,单位:像素,").length(), new String("设置字体大小(绝对值,单位:像素,单位:像素)").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 第二个参数boolean
+																								// dip，如果为true，表示前面的字体大小单位为dip，否则为像素，上同
+		spannablesbList.add(ssb);
+
+		ssb = new SpannableStringBuilder("设置字体大小（相对值：一半/两倍,单位：像素） 参数表示为默认字体大小的多少倍 ");
+		ssb.setSpan(new RelativeSizeSpan(0.5f), new String("设置字体大小（相对值：").length(), new String("设置字体大小（相对值：一半/").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 0.5f表示默认字体大小的一半
+		ssb.setSpan(new RelativeSizeSpan(2.0f), new String("设置字体大小（相对值：一半/").length(), new String("设置字体大小（相对值：一半/两倍,").length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 2.0f表示默认字体大小的两倍
 		spannablesbList.add(ssb);
 	}
 

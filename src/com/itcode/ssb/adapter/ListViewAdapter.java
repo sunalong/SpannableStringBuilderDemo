@@ -5,7 +5,6 @@ import java.util.List;
 import android.content.Context;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
-import android.text.style.URLSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -47,8 +46,9 @@ public class ListViewAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = View.inflate(context, R.layout.item_listview, null);
 		tvShowText = (TextView) view.findViewById(R.id.tvShowText);
-		tvShowText.setText(list.get(position));
-		if (position == 2)
+		tvShowText.append(position + ": ");
+		tvShowText.append(list.get(position));
+		if (position > 5 && position < 12)
 			tvShowText.setMovementMethod(LinkMovementMethod.getInstance());// 让链接的点击事件响应的必要一句代码
 		return view;
 	}
